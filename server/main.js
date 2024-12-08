@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import fetch from "node-fetch";
+
+global.fetch = fetch;
 
 dotenv.config();
 
@@ -28,14 +31,20 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 app.post("/api/chat", async (req, res) => {
   const prompt = req.body.prompt; // Get the prompt from the request body
 
+  if (!prompt) {
+    return res.status(400).json({ error: "Prompt is required." });
+  }
+
   try {
     // Call Gemini API to generate the content based on the provided prompt
+    console.log("Prompt received:", prompt); // Debugging
     const result = await model.generateContent(prompt);
+    console.log("AI Response:", result.response.text()); // Debugging
 
     // Send the response text back to the client
     res.json({ text: result.response.text() });
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error while calling Gemini API:", error.message); // More descriptive error
     res
       .status(500)
       .json({ error: "An error occurred while processing your request." });
