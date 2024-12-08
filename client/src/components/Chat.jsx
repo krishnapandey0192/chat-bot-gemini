@@ -33,9 +33,12 @@ function Chat() {
     ]);
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URI}/chat`, {
-        prompt: currentQuestion,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/chat`,
+        {
+          prompt: currentQuestion,
+        }
+      );
 
       const aiResponse = response.data.text;
       setChatHistory((prev) => [
