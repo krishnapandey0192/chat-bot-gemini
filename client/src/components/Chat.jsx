@@ -47,7 +47,17 @@ function Chat() {
       ]);
       setAnswer(aiResponse);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
+      // Add error message to chat history
+      setChatHistory((prev) => [
+        ...prev,
+        {
+          type: "answer",
+          content: "⚠️ Sorry, something went wrong. Please try again later!",
+        },
+      ]);
+
       setAnswer("Sorry - Something went wrong. Please try again!");
     }
     setGeneratingAnswer(false);
@@ -73,7 +83,7 @@ function Chat() {
         {/* Scrollable Chat Container */}
         <div
           ref={chatContainerRef}
-          className="flex-1 overflow-y-auto mb-4 rounded-lg bg-gray-200 dark:bg-gray-800 shadow-lg p-4 hide-scrollbar "
+          className="flex-1 overflow-y-auto mb-4 rounded-lg bg-gray-200 dark:bg-gray-800 shadow-lg p-4 hide-scrollbar"
         >
           {chatHistory.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6">
