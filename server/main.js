@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fetch, { Headers } from "node-fetch";
 
-
 global.fetch = fetch;
 global.Headers = Headers;
 
@@ -28,6 +27,48 @@ app.use(express.json());
 // Initialize Google Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+// Gemini AI-related interesting content
+const geminiContent = [
+  "Welcome to the Gemini AI server! 🤖 Where intelligence meets innovation.",
+  "Did you know? Gemini AI is designed to handle multimodal data, enabling it to process both text and images simultaneously! 🧠",
+  "Fun fact: Gemini AI can analyze billions of data points in seconds, providing insights faster than ever before. ⚡",
+  "Motivational Quote: 'The future of AI isn't just automation; it's augmentation, and Gemini AI leads the way.' 🚀",
+  "Hello there! Gemini AI is your partner in creating smarter, more human-centric technology. 💡",
+];
+
+// Home route
+app.get("/", (req, res) => {
+  // Randomly select a Gemini AI-related message to display
+  const randomMessage =
+    geminiContent[Math.floor(Math.random() * geminiContent.length)];
+  res.send(`
+    <html>
+      <head>
+        <title>Welcome to Gemini AI</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20%;
+            background-color: #f9f9f9;
+            color: #333;
+          }
+          h1 {
+            color: #4caf50;
+          }
+          p {
+            color: #555;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>${randomMessage}</h1>
+        <p>Thank you for exploring the world of Gemini AI! 🌟</p>
+      </body>
+    </html>
+  `);
+});
 
 // Chat route
 app.post("/api/chat", async (req, res) => {
