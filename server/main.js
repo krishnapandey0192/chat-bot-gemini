@@ -15,7 +15,7 @@ const port = process.env.PORT || 3001;
 // Middleware
 app.use(
   cors({
-    origin: "https://chat-bot-gemini-phi.vercel.app/",
+    origin: "https://chat-bot-gemini-phi.vercel.app",
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
     // allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
